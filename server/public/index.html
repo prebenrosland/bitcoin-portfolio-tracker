@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1 id="header">Joke</h1>
+
+    <button id="btn_en">
+        English
+    </button>
+    <button id="btn_no">
+        Norsk
+    </button>
+
+    <p id="joke"></p>
+
+
+    <script>
+
+        let btn_en = document.getElementById("btn_en");
+        let btn_no = document.getElementById("btn_no");
+        let joke = document.getElementById("joke");
+        let header = document.getElementById("header");
+
+        btn_en.addEventListener("click", async function(e){
+            let resp = await fetch("/joke/en");
+            let data = await resp.json();
+            joke.innerHTML = data.joke;
+            header.innerHTML = "Joke";
+        });
+
+        btn_no.addEventListener("click", async function(e){
+            let resp = await fetch("/joke/no");
+            let data = await resp.json();
+            joke.innerHTML = data.joke;
+            header.innerHTML = "Vits";
+        });
+
+    </script>
+</body>
+</html>
