@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="authDiv">
+        <span>Username:</span><input id="username" aria-label="username">
+        <br>
+        <span>Password:</span><input id="password" type="password" aria-label="password">
+        <br>
+        <button id="loginBtn">Login</button>
+        <button id="registerBtn">Register</button>
+    </div>
+
+    <div id="applicationUI" class="hidden">
+        <h1>Bitcoin Tracker</h1>
+        <input id="transactionAmount" aria-label="bitcoin tranaction amount"> <button id="transactionBtn">Add</button>
+        <p>Your BTC balance:</p>
+        <p id="btc_balance"></p>
+    </div>
+
+    <script src="./js/app.mjs"></script>
+    <script src="./js/UIManager.mjs"></script>
+    <style>
+
+        *{
+            margin: 0;
+            font-family: sans-serif;
+            margin-bottom: 5px;
+            font-size: larger;
+        }
+
+        body{
+            margin: 25px;
+            background-color: #f0f0f0;
+        }
+
+        div{
+            margin: 5px;
+        }
+
+        input{
+            border-radius: 5px;
+            padding: 5px;
+            margin-left: auto;
+        }
+
+        button{
+            background-color: blue;
+            border-color: #ffffff;
+            border-radius: 5px;
+            padding: 5px;
+            color: white;
+        }
+
+        button:hover{
+            background-color: darkblue;
+            cursor: pointer;
+        }
+
+        .hidden{
+            display: none;
+        }
+
+        
+    </style>
+</body>
+</html>
