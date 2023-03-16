@@ -61,12 +61,10 @@ userRouter.post("/register", async (req, res, next) => {
     let user = {username: newUsername, password: hash, balance: balance}
     users.push(user);
 
-    await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [newUsername, newPassword]);
+    //await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [newUsername, newPassword]);
 
     //res.send(req.body);
     res.send(users);
 })
-
-console.log(pool.host);
 
 export default userRouter;
