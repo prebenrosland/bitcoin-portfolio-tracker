@@ -19,18 +19,22 @@ const credentials = {
 userRouter.post("/login", async (req, res, next) => {
     const newPassword = req.body.password += "salt";
     const hash = createHmac('sha256', newPassword).digest('hex');
-    /*for (let i of users){
-        if (i.username === req.body.username && i.password === hash){
-            res.status(200).send({"login": "ok", "balance": i.balance}).send;
-            return;
-        }
-    }*/
     const client = new Client(credentials);
     try {
         await client.connect();
         let result = await client.query('SELECT * FROM users where username = $1 AND password = $2', [req.body.username, hash]);
-        if (result.rowCount > 0){
-            let balance = result.rows[0].balance;
+        let balance = result.rows[0].balance;
+        if (result.rowCount > 0 && req.body.username === "admin"){
+
+            let userList = await client.query('SELECT * FROM users');
+            let userNames = [];
+            for (let i of userList.rows) {
+                userNames.push(i.username);
+            }
+            res.status(200).send({"login":"admin ok", "balance": balance, "users": userNames});
+        }
+        else if (result.rowCount > 0){
+            
             res.status(200).send({"login":"ok", "balance": balance});
         }
         else{
@@ -45,13 +49,7 @@ userRouter.post("/login", async (req, res, next) => {
 })
 
 userRouter.put("/login", async (req, res, next) => {
-    /*for (let i of users){
-        if (i.username === req.body.username){
-            i.balance += req.body.balance;
-            res.status(200).send({"balance": i.balance}).send;
-            return;
-        }
-    }*/
+
     const client = new Client(credentials);
     try {
         await client.connect();
@@ -68,15 +66,23 @@ userRouter.put("/login", async (req, res, next) => {
     }
 })
 
+userRouter.delete('/login', async (req, res, next) => {
+    
+    const client = new Client(credentials);
+    try {
+        await client.connect();
+        await  client.query('DELETE FROM users WHERE username=$1', [req.body.username]);
+        client.end();
+        res.status(200).send({"delete": "ok"})
+    }
+    catch{
+        res.send({error: 'failed to delete', "username": req.body.username})
+    }
+})
+
 
 userRouter.post("/register", async (req, res, next) => {
     const newUsername = req.body.username;
-    /*for (let i of users){
-        if (i.username === newUsername){
-            res.status(400).send({"error" : "user already exists"});
-            return;
-        }
-    }*/
 
     const newPassword = req.body.password += "salt";
     const hash = createHmac('sha256', newPassword).digest('hex');

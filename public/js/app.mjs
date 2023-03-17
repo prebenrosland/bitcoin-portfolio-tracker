@@ -1,4 +1,4 @@
-//const { createHmac } = await import('node:crypto');
+import FetchBtcLivePrice from './currencyUpdate.mjs';
 
 let userName = document.querySelector('#username');
 let passWord = document.querySelector('#password');
@@ -11,8 +11,13 @@ let applicationUI = document.querySelector('#applicationUI');
 let transactionAmount = document.querySelector('#transactionAmount');
 let transactionBtn = document.querySelector('#transactionBtn');
 let btc_balance = document.querySelector('#btc_balance');
+let btc_price;
 
 //Security
+
+//Admin
+let admin_div = document.querySelector('#adminDiv');
+let user_list = document.querySelector('#user_list')
 
 let currentUsername;
 
@@ -43,6 +48,14 @@ const transactionCfg = {
     body: {}
 }
 
+const adminDeleteCfg = {
+    method: "DELETE",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: {}
+}
+
 loginBtn.addEventListener("click", async function(e){
     loginCfg.body = JSON.stringify({username: userName.value, password: passWord.value});
     
@@ -53,7 +66,17 @@ loginBtn.addEventListener("click", async function(e){
         HideAuthUI();
         userBtcBalance = data.balance;
         localStorage.setItem("username", userName.value);
+        btc_price = await FetchBtcLivePrice();
         UpdateBTC();
+    }
+
+    else if (data.login === "admin ok"){
+        HideAuthUI();
+        userBtcBalance = data.balance;
+        localStorage.setItem("username", userName.value);
+        btc_price = await FetchBtcLivePrice();
+        UpdateBTC();
+        ShowAdminUI(data.users);
     }
 })
 
@@ -81,6 +104,37 @@ function HideAuthUI(){
     applicationUI.classList.remove('hidden');
 }
 
-function UpdateBTC(){
-    btc_balance.innerHTML = userBtcBalance + " ($" + userBtcBalance * 25000 + ")";
+async function ShowAdminUI(userList){
+    admin_div.classList.remove('hidden');
+    userList.innerHTML = "";
+    for (let i of userList){
+        let listElement = document.createElement('li');
+        let elementDiv = document.createElement('div');
+        let elementName = document.createElement('p');
+        let elementDelete = document.createElement('button');
+        
+        elementName.innerHTML = i;
+        elementDelete.innerHTML = "Delete"
+        
+        elementDiv.appendChild(elementName);
+        elementDiv.appendChild(elementDelete);
+        listElement.appendChild(elementDiv);
+        user_list.appendChild(listElement);
+
+        elementDelete.addEventListener("click", async function(e){
+            adminDeleteCfg.body = JSON.stringify({username: i});
+
+            let resp = await fetch("/users/login", adminDeleteCfg);
+            let data = await resp.json();
+            console.log(data);
+            if (data.delete === "ok"){
+                user_list.removeChild(listElement);
+            }
+        })
+    }
 }
+
+function UpdateBTC(){
+    btc_balance.innerHTML = userBtcBalance + " ($" + userBtcBalance * btc_price + ")";
+}
+
