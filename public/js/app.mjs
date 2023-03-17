@@ -64,7 +64,7 @@ registerBtn.addEventListener("click", async function(e){
 })
 
 transactionBtn.addEventListener("click", async function(e){
-    transactionCfg.body = JSON.stringify({username: localStorage.getItem("username"), balance: parseFloat(transactionAmount.value)});
+    transactionCfg.body = JSON.stringify({username: localStorage.getItem("username"), balance: parseFloat(transactionAmount.value)+userBtcBalance});
 
     let resp = await fetch("/users/login", transactionCfg);
     let data = await resp.json();
@@ -80,5 +80,5 @@ function HideAuthUI(){
 }
 
 function UpdateBTC(){
-    btc_balance.innerHTML = userBtcBalance + " ($" + userBtcBalance * 250000 + ")";
+    btc_balance.innerHTML = userBtcBalance + " ($" + userBtcBalance * 25000 + ")";
 }
