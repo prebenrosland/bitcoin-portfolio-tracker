@@ -6,7 +6,8 @@ const { Client } = pg.default;
 
 const users = [];
 
-const database = process.env.DATABASE_URL;
+const database = process.env.DATABASE_URL || "postgres://lhpmmsqtyhgmcl:936ad6074f4a587a89be473752a1342a4b799748501a7efad67c569488681d96@ec2-34-251-233-253.eu-west-1.compute.amazonaws.com:5432/d7rhv2l98sse2n";
+
 const credentials = {
     connectionString: database,
     ssl: {

@@ -14,6 +14,8 @@ let btc_balance = document.querySelector('#btc_balance');
 
 //Security
 
+let currentUsername;
+
 
 let userBtcBalance = 0;
 
@@ -43,6 +45,7 @@ const transactionCfg = {
 
 loginBtn.addEventListener("click", async function(e){
     loginCfg.body = JSON.stringify({username: userName.value, password: passWord.value});
+    currentUsername = userName.value;
     
     let resp = await fetch("/users/login", loginCfg);
     let data = await resp.json();
@@ -64,7 +67,7 @@ registerBtn.addEventListener("click", async function(e){
 })
 
 transactionBtn.addEventListener("click", async function(e){
-    transactionCfg.body = JSON.stringify({username: localStorage.getItem("username"), balance: parseFloat(transactionAmount.value)+userBtcBalance});
+    transactionCfg.body = JSON.stringify({username: currentUsername, balance: parseFloat(transactionAmount.value)+userBtcBalance});
 
     let resp = await fetch("/users/login", transactionCfg);
     let data = await resp.json();
