@@ -54,8 +54,6 @@ userRouter.post("/login", async (req, res, next) => {
         res.status(500).send({error: 'failed to login'});
         client.end();
     }
-
-    res.status(400).send({"error": "invalid username or password"});
 })
 
 userRouter.put("/login", async (req, res, next) => {
