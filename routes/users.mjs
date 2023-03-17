@@ -66,7 +66,7 @@ userRouter.post("/register", async (req, res, next) => {
     const client = new Client(database);
     try {
         await client.connect();
-        await client.query('INSERT INTO users (username, password) VALUES (preben, 123)');
+        await client.query('SELECT * FROM users');
         client.end();
         res.send({"status": "ok"});
     } catch (error) {
