@@ -8,6 +8,13 @@ const users = [];
 
 const database = process.env.DATABASE_URL;
 
+const credentials = {
+    connectionString: database,
+    ssl: {
+        rejectUnauthorized: false
+    }
+}
+
 
 /*let createDB = new Client(database);
 createDB.connect();
@@ -63,11 +70,11 @@ userRouter.post("/register", async (req, res, next) => {
     let user = {username: newUsername, password: hash, balance: balance};
     users.push(user);
 
-    const client = new Client(database);
+    const client = new Client(credentials);
     try {
         await client.connect();
-        await client.query('SELECT * FROM users');
-        client.end();
+        await client.query('INSERT INTO users("username", "password") VALUES ($1, $2)', [newUsername, hash]);
+        await client.end();
         res.send({"status": "ok"});
     } catch (error) {
         console.log(error);
