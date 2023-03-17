@@ -8,6 +8,14 @@ const users = [];
 
 const database = process.env.DATABASE_URL || "postgres://lhpmmsqtyhgmcl:936ad6074f4a587a89be473752a1342a4b799748501a7efad67c569488681d96@ec2-34-251-233-253.eu-west-1.compute.amazonaws.com:5432/d7rhv2l98sse2n";
 
+
+let createDB = new Client(database);
+createDB.connect();
+await createDB.query('CREATE DATABASE mydatabase');
+createDB.close();
+
+
+
 userRouter.get("/login", (req, res, next) => {
     res.send({data: "your data"})
 })
@@ -58,7 +66,7 @@ userRouter.post("/register", async (req, res, next) => {
     const client = new Client(database);
     try {
         await client.connect();
-        await client.query('INSERT INTO "users" (username, password) VALUES($1, $2)',[newUsername, hash]);
+        await client.query('INSERT INTO "users" (username, password) VALUES ("preben", "123")');
         client.end();
         res.send({"status": "ok"});
     } catch (error) {
