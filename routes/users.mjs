@@ -1,17 +1,12 @@
 const { createHmac } = await import('node:crypto');
 import express from "express";
-import pg from 'pg';
+import * as pg from 'pg';
 const userRouter = express.Router();
+const { Client } = pg.default;
 
 const users = [];
 
-const pool = new pg.Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
-})
+const database = process.env.DATABASE_URL;
 
 userRouter.get("/login", (req, res, next) => {
     res.send({data: "your data"})
@@ -46,6 +41,8 @@ userRouter.get("/register", (req, res, next) => {
 })
 
 userRouter.post("/register", async (req, res, next) => {
+    const client = new Client(database);
+
     const newUsername = req.body.username;
     for (let i of users){
         if (i.username === newUsername){
@@ -61,10 +58,19 @@ userRouter.post("/register", async (req, res, next) => {
     let user = {username: newUsername, password: hash, balance: balance}
     users.push(user);
 
-    //await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [newUsername, newPassword]);
+    try {
+
+        await client.connect();
+        await client.query('INSERT INTO "users" (username, password) VALUES($1, $2)',[newUsername, hash]);
+        client.end();
+
+    } catch (error) {
+        console.log(error);
+    }
+    
 
     //res.send(req.body);
-    res.send(users);
+    //res.send(users);
 })
 
 export default userRouter;
