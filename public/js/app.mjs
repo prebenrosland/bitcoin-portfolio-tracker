@@ -91,7 +91,7 @@ registerBtn.addEventListener("click", async function(e){
 transactionBtn.addEventListener("click", async function(e){
     transactionCfg.body = JSON.stringify({username: localStorage.getItem("username"), balance: parseFloat(transactionAmount.value)+userBtcBalance});
 
-    let resp = await fetch("/users/login", transactionCfg);
+    let resp = await fetch("/transaction/editBalance", transactionCfg);
     let data = await resp.json();
     console.log(data);
 
@@ -124,7 +124,7 @@ async function ShowAdminUI(userList){
         elementDelete.addEventListener("click", async function(e){
             adminDeleteCfg.body = JSON.stringify({username: i});
 
-            let resp = await fetch("/users/login", adminDeleteCfg);
+            let resp = await fetch("/admin/deleteUser", adminDeleteCfg);
             let data = await resp.json();
             console.log(data);
             if (data.delete === "ok"){
