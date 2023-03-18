@@ -17,7 +17,8 @@ let btc_price;
 
 //Admin
 let admin_div = document.querySelector('#adminDiv');
-let user_list = document.querySelector('#user_list')
+let user_list = document.querySelector('#user_list');
+let manage_users_btn = document.querySelector('#manage_users_btn');
 
 let currentUsername;
 
@@ -56,6 +57,14 @@ const adminDeleteCfg = {
     body: {}
 }
 
+const adminEditCfg = {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: {}
+}
+
 loginBtn.addEventListener("click", async function(e){
     loginCfg.body = JSON.stringify({username: userName.value, password: passWord.value});
     
@@ -66,7 +75,12 @@ loginBtn.addEventListener("click", async function(e){
         HideAuthUI();
         userBtcBalance = data.balance;
         localStorage.setItem("username", userName.value);
-        btc_price = await FetchBtcLivePrice();
+        if (data.updates < 11){
+            btc_price = await FetchBtcLivePrice();
+        }
+        else{
+            console.log("You have spent all you update tokens");
+        }
         UpdateBTC();
     }
 
@@ -99,6 +113,10 @@ transactionBtn.addEventListener("click", async function(e){
     UpdateBTC();
 })
 
+manage_users_btn.addEventListener("click", async function(e){
+    user_list.classList.remove("hidden");
+})
+
 function HideAuthUI(){
     authDiv.classList.add('hidden');
     applicationUI.classList.remove('hidden');
@@ -110,14 +128,17 @@ async function ShowAdminUI(userList){
     for (let i of userList){
         let listElement = document.createElement('li');
         let elementDiv = document.createElement('div');
-        let elementName = document.createElement('p');
+        let elementName = document.createElement('span');
         let elementDelete = document.createElement('button');
+        let elementEdit = document.createElement('input');
         
+
         elementName.innerHTML = i;
         elementDelete.innerHTML = "Delete"
         
         elementDiv.appendChild(elementName);
         elementDiv.appendChild(elementDelete);
+        elementDiv.appendChild(elementEdit);
         listElement.appendChild(elementDiv);
         user_list.appendChild(listElement);
 
@@ -130,6 +151,14 @@ async function ShowAdminUI(userList){
             if (data.delete === "ok"){
                 user_list.removeChild(listElement);
             }
+        })
+
+        elementEdit.addEventListener("change", async function(e){
+            adminEditCfg.body = JSON.stringify({username: i, updates: elementEdit.value});
+
+            let resp = await fetch('/admin/editUserUpdates', adminEditCfg);
+            let data = await resp.json();
+            console.log(data)
         })
     }
 }

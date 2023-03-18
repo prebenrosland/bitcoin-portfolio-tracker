@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    font-family: sans-serif;
+    margin-bottom: 5px;
+}
+
+body{
+    margin: 15px;
+    background-color: #f0f0f0;
+}
+
+input{
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.);
+    font-size: 16px;
+    margin: 5px;
+    width: 50%;
+}
+
+button{
+    background-color: lightskyblue; /* Green background */
+
+    color: white; /* White text */
+    padding: 12px 24px; /* Padding */
+    text-align: center; /* Center text */
+    display: inline-block; /* Make it a block element */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2); /* Shadow */
+}
+
+button:hover{
+    background-color: darkblue;
+    cursor: pointer;
+}
+
+li {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px;
+}
+
+ul{
+    margin-top: 25px;
+    list-style-type: none;
+}
+
+.hidden{
+    display: none;
+}
+
+#adminDiv{
+    margin-top: 25px;
+}
