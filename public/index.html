@@ -8,19 +8,23 @@
     <title>Document</title>
 </head>
 <body>
+    <div id="languageSelection">
+        <button id="norsk">Norsk</button><button id="english">English</button>
+    </div>
+
     <div id="authDiv">
-        <span>Username:</span><input id="username" aria-label="username">
+        <span id="usernameTxt">Username:</span><input id="username" aria-label="username">
         <br>
-        <span>Password:</span><input id="password" type="password" aria-label="password">
+        <span id="passwordTxt">Password:</span><input id="password" type="password" aria-label="password">
         <br>
         <button id="loginBtn">Login</button>
         <button id="registerBtn">Register</button>
     </div>
 
     <div id="applicationUI" class="hidden">
-        <h1>Bitcoin Tracker</h1>
+        <h1 id="h1">Bitcoin Tracker</h1>
         <input id="transactionAmount" aria-label="bitcoin tranaction amount"> <button id="transactionBtn">Add</button>
-        <p>Your BTC balance:</p>
+        <p id="btcTxt">Your BTC balance:</p>
         <p id="btc_balance"></p>
     </div>
 
@@ -32,6 +36,6 @@
     </div>
 
     <script src="./js/app.mjs" type="module"></script>
-    <script src="./js/UIManager.mjs"></script>
+    <script src="./js/translator.mjs" type="module"></script>
 </body>
 </html>

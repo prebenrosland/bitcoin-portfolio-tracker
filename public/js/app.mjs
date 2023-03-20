@@ -1,4 +1,6 @@
 import FetchBtcLivePrice from './currencyUpdate.mjs';
+import Dictionary from './dictionary.mjs';
+import CheckLanguage from './translator.mjs';
 
 let userName = document.querySelector('#username');
 let passWord = document.querySelector('#password');
@@ -100,6 +102,9 @@ registerBtn.addEventListener("click", async function(e){
     let resp = await fetch("/users/register", registerCfg);
     let data = await resp.json();
     console.log(data);
+
+    userName.value = "";
+    passWord.value = "";
 })
 
 transactionBtn.addEventListener("click", async function(e){
@@ -130,14 +135,22 @@ async function ShowAdminUI(userList){
         let elementDiv = document.createElement('div');
         let elementName = document.createElement('span');
         let elementDelete = document.createElement('button');
+        let editUpdates = document.createElement('span');
         let elementEdit = document.createElement('input');
         
 
         elementName.innerHTML = i;
-        elementDelete.innerHTML = "Delete"
+        elementDelete.innerHTML = "Delete";
+        if (CheckLanguage() === "english"){
+            editUpdates.innerHTML = Dictionary.en.updates;
+        }
+        else if (CheckLanguage() === "norsk"){
+            editUpdates.innerHTML = Dictionary.no.updates;
+        }
         
         elementDiv.appendChild(elementName);
         elementDiv.appendChild(elementDelete);
+        elementDiv.appendChild(editUpdates);
         elementDiv.appendChild(elementEdit);
         listElement.appendChild(elementDiv);
         user_list.appendChild(listElement);

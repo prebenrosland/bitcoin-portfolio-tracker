@@ -20,7 +20,7 @@ userRouter.post("/login", async (req, res, next) => {
 
             let userList = await client.query('SELECT * FROM users');
             let userNames = [];
-            for (let i of userList.rows) {
+            for (let i of userList.rows){
                 userNames.push(i.username);
             }
             res.status(200).send({"login":"admin ok", "balance": balance, "users": userNames,});
@@ -32,10 +32,10 @@ userRouter.post("/login", async (req, res, next) => {
         else{
             res.send({error: "Wrong username or password"});
         }
-        await client.end();
     } catch (error) {
         console.log(error);
         res.status(500).send({error: 'failed to login'});
+    } finally{
         client.end();
     }
 })
