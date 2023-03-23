@@ -1,5 +1,5 @@
 # mm207_prosjekt
 | Method       | Path           | Description   |
 | :---         | :---           |  :---         |
-| git status   | git status     | git status    |
+| POST         | /users/login   | Logs in a user if username and password match database    |
 | git diff     | git diff       | git diff      |
