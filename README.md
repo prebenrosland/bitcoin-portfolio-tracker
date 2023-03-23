@@ -1,5 +1,5 @@
 # mm207_prosjekt
-| Method     | Path | Description
+| Name     | Character |
 | ---      | ---       |
-| POST | /users/login         | Logs in user if username and password matches database
+| Backtick | `         |
 | Pipe     | \|        |
