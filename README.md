@@ -1,5 +1,5 @@
 # mm207_prosjekt
-| Left-aligned | Center-aligned | Right-aligned |
+| Method       | Path           | Description   |
 | :---         | :---           |  :---         |
 | git status   | git status     | git status    |
 | git diff     | git diff       | git diff      |
